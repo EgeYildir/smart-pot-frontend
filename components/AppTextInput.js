@@ -16,7 +16,6 @@ export default function AppTextInput( {...props} ) {
 const styles = StyleSheet.create({
     container: {
         borderRadius: 10,
-        width: "100%",
         padding: 10,
         marginVertical: 10,
         shadowColor: colors.shadow,
@@ -26,7 +25,7 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.25,
         shadowRadius: 10,
-        elevation: 10,
+        elevation: 2,
     },
     textInput: {
         fontSize: 18,
