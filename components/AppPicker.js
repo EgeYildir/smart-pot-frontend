@@ -1,10 +1,10 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
 export default function AppPicker() {
     return (
         <View>
-            <Text></Text>
+            
         </View>
     )
 }

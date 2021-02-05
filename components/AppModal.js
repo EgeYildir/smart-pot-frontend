@@ -1,5 +1,6 @@
 import React from 'react'
 import { Alert, Modal, StyleSheet, View } from 'react-native'
+import colors from '../config/colors'
 import AppButton from './AppButton'
 import AppText from './AppText'
 
@@ -16,18 +17,23 @@ export default function AppModal({ modalVisible, setModalVisible, message, close
             >
                 <View style={styles.modalView}>
                     <AppText text={message} />
-                    <AppButton 
-                        text={closeBtnText}
-                        onPress={() => {
-                            setModalVisible(false);
-                        }}
-                    />
-                    {acceptable && <AppButton 
-                        text={acceptBtnText}
-                        onPress={() => {
+                    <View style={styles.buttonContainer}>
+                        <AppButton 
+                            style={styles.cancelButton}
+                            text={closeBtnText}
+                            lightTheme={true}
+                            onPress={() => {
+                                setModalVisible(false);
+                            }}
+                        />
+                        {acceptable && <AppButton 
+                            style={styles.acceptButton}
+                            text={acceptBtnText}
+                            onPress={() => {
 
-                        }}
-                    />}
+                            }}
+                        />}
+                    </View>
                 </View>
             </Modal>
         </View>
@@ -35,6 +41,17 @@ export default function AppModal({ modalVisible, setModalVisible, message, close
 }
 
 const styles = StyleSheet.create({
+    acceptButton: {
+        marginLeft: 5,
+    },
+    buttonContainer: {
+        flexDirection: 'row',
+        margin: 5,
+    },
+    cancelButton: {
+        backgroundColor: colors.light,
+        marginRight: 5,
+    },
     centeredView: {
         flex: 1,
         justifyContent: "center",
@@ -45,7 +62,7 @@ const styles = StyleSheet.create({
         margin: 20,
         backgroundColor: "white",
         borderRadius: 20,
-        padding: 35,
+        paddingTop: 15,
         alignItems: "center",
         shadowColor: "#000",
         shadowOffset: {

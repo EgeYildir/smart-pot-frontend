@@ -1,13 +1,21 @@
 import React from 'react'
-import { StyleSheet, TouchableOpacity } from 'react-native'
+import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import AppText from './AppText'
 import colors from '../config/colors'
 
-export default function AppButton({ text, onPress, style }) {
+export default function AppButton({ text, onPress, style, lightTheme }) {
     return (
-        <TouchableOpacity style={[styles.button, style]} onPress={onPress}>
-            <AppText style={styles.text} text={text}/>
-        </TouchableOpacity>
+        <View>
+        {lightTheme ?
+            <TouchableOpacity style={[styles.lightButton, style]} onPress={onPress}>
+            <AppText style={styles.lightText} text={text}/>
+            </TouchableOpacity>
+            :
+            <TouchableOpacity style={[styles.button, style]} onPress={onPress}>
+                <AppText style={styles.text} text={text}/>
+            </TouchableOpacity>
+        }
+        </View>
     )
 }
 
@@ -22,5 +30,16 @@ const styles = StyleSheet.create({
     },
     text: {
         color: colors.light,
-    }
+    },
+    lightButton: {
+        backgroundColor: colors.light,
+        borderRadius: 10,
+        justifyContent: "center",
+        alignItems: "center",
+        padding: 15,
+        marginTop: 10,
+    },
+    lightText: {
+        color: colors.text,
+    },
 })
