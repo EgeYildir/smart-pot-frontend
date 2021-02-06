@@ -8,5 +8,6 @@ const colors = {
     shadow: "#000",
     gray: "#C1C1C1",
     grey: "#C1C1C1",
+    error: "#FF1919",
 }
 export default colors;

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Alert, Modal, StyleSheet, View } from 'react-native'
-import colors from '../config/colors'
+import colors from '../../config/colors'
 import AppButton from './AppButton'
 import AppText from './AppText'
 
@@ -20,8 +20,8 @@ export default function AppModal({ modalVisible, setModalVisible, message, close
                     <View style={styles.buttonContainer}>
                         <AppButton 
                             style={styles.cancelButton}
+                            textStyle={styles.cancelText}
                             text={closeBtnText}
-                            lightTheme={true}
                             onPress={() => {
                                 setModalVisible(false);
                             }}
@@ -51,6 +51,9 @@ const styles = StyleSheet.create({
     cancelButton: {
         backgroundColor: colors.light,
         marginRight: 5,
+    },
+    cancelText: {
+        color: colors.text,
     },
     centeredView: {
         flex: 1,
