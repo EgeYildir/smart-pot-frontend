@@ -34,6 +34,8 @@ const styles = StyleSheet.create({
     lightButton: {
         backgroundColor: colors.light,
         borderRadius: 10,
+        borderWidth: 1,
+        borderColor: colors.gray,
         justifyContent: "center",
         alignItems: "center",
         padding: 15,
