@@ -1,8 +1,6 @@
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
-import AppText from '../components/AppText'
-import AppTextInput from '../components/AppTextInput'
-import AppButton from '../components/AppButton'
+import { Text, TextInput, Button } from '../components/custom-item-lib'
 import { Formik } from 'formik'
 
 export default function RegisterScreen() {
@@ -14,15 +12,15 @@ export default function RegisterScreen() {
             >
                 {({handleChange, handleSubmit}) => (
                     <>
-                        <AppText style={styles.title} text="Register" />
-                        <AppTextInput 
+                        <Text style={styles.title} text="Register" />
+                        <TextInput 
                             autoCorrect={false}
                             keyboardType="email-address"
                             placeholder="Username or Email"
                             onChangeText={handleChange("email")}
                             textContentType="emailAddress"
                         />
-                        <AppTextInput
+                        <TextInput
                             autoCorrect={false}
                             keyboardType="number-pad"
                             placeholder="Password"
@@ -30,7 +28,7 @@ export default function RegisterScreen() {
                             textContentType="password"
                             onChangeText={handleChange("password")}
                         />
-                        <AppTextInput
+                        <TextInput
                             autoCorrect={false}
                             keyboardType="number-pad"
                             placeholder="Password Check"
@@ -38,7 +36,7 @@ export default function RegisterScreen() {
                             textContentType="password"
                             onChangeText={handleChange("passwordCheck")}
                         />
-                        <AppButton  
+                        <Button  
                             text="Register"
                             onPress={() => {
 

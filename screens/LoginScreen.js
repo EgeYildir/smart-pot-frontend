@@ -1,12 +1,8 @@
 import React, { useState } from 'react'
 import { ImageBackground, StyleSheet, View } from 'react-native'
-import AppButton from '../components/AppButton'
-import AppText from '../components/AppText'
-import AppTextInput from '../components/AppTextInput'
-import AppModal from '../components/AppModal'
-import { Formik } from 'formik'
+import { Button, Text, TextInput, Modal, Form } from '../components/custom-item-lib'
 
-const backgroundImage = { uri: "https://www.panelplus.co.th/uploads/collection/5be55-white-mk630n.jpg" };
+const backgroundImage = { uri: "http://images.unsplash.com/photo-1517021818302-9b520a06c834?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max" };
 
 export default function LoginScreen() {
     const [modalVisible, setModalVisible] = useState(false)
@@ -14,40 +10,38 @@ export default function LoginScreen() {
         <ImageBackground
             source={backgroundImage}
             style={styles.background}
+            blurRadius={2}
         >
             <View style={styles.container}>
-                <Formik 
-                    initialValues={{ email: "", password:""}}
+                <Form
+                    initialValues={{email: "", password:""}}
                     onSubmit={values => console.log(values)}
+                    validationSchema={validationSchema}
                 >
-                    {({handleChange, handleSubmit}) => (
-                        <>
-                            <AppText style={styles.title} text="Login" />
-                            <AppTextInput 
-                                autoCorrect={false}
-                                keyboardType="email-address"
-                                placeholder="Username or Email"
-                                onChangeText={handleChange("email")}
-                                textContentType="emailAddress"
-                            />
-                            <AppTextInput
-                                autoCorrect={false}
-                                keyboardType="number-pad"
-                                placeholder="Password"
-                                secureTextEntry
-                                textContentType="password"
-                                onChangeText={handleChange("password")}
-                            />
-                            <AppButton  
-                                text="Login"
-                                onPress={() => {
-                                    setModalVisible(true);
-                                }}
-                            />
-                        </>
-                    )}
-                </Formik>
-                <AppModal 
+                    <Text style={styles.title} text="Login" />
+                    <TextInput 
+                        autoCorrect={false}
+                        keyboardType="email-address"
+                        placeholder="Username or Email"
+                        onChangeText={handleChange("email")}
+                        textContentType="emailAddress"
+                    />
+                    <TextInput
+                        autoCorrect={false}
+                        keyboardType="number-pad"
+                        placeholder="Password"
+                        secureTextEntry
+                        textContentType="password"
+                        onChangeText={handleChange("password")}
+                    />
+                    <Button  
+                        text="Login"
+                        onPress={() => {
+                            setModalVisible(true);
+                        }}
+                    />
+                </Form>
+                <Modal 
                     modalVisible={modalVisible}
                     setModalVisible={setModalVisible}
                     message="Modal visible."
@@ -74,7 +68,8 @@ const styles = StyleSheet.create({
     },
     background: {
         resizeMode: "cover",
-        justifyContent: "center",
+        justifyContent: "flex-start",
         alignSelf: "stretch",
+        height: "100%",
     }
 })

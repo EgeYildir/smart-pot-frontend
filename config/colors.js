@@ -6,5 +6,7 @@ const colors = {
     light: "#fff",
     dark: "#000",
     shadow: "#000",
+    gray: "#C1C1C1",
+    grey: "#C1C1C1",
 }
 export default colors;
