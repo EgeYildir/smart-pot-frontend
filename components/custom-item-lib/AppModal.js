@@ -7,6 +7,19 @@ import AppText from './AppText'
 export default function AppModal({ modalVisible, setModalVisible, message, closeBtnText, acceptable, acceptBtnText }) {
     return (
         <View style={styles.centeredView}>
+            {/**
+             * Example usage for modal:
+             * 
+             * <Modal 
+                    modalVisible={modalVisible}
+                    setModalVisible={setModalVisible}
+                    message="Modal visible."
+                    closeBtnText="Cancel"
+                    acceptable={true}
+                    acceptBtnText="Accept"
+                />
+
+             */}
             <Modal
                 animationType="slide"
                 transparent={true}
@@ -16,21 +29,22 @@ export default function AppModal({ modalVisible, setModalVisible, message, close
                 }}
             >
                 <View style={styles.modalView}>
-                    <AppText text={message} />
+                    <AppText text={message} /> {/* Modal message shown here. */}
                     <View style={styles.buttonContainer}>
                         <AppButton 
                             style={styles.cancelButton}
                             textStyle={styles.cancelText}
                             text={closeBtnText}
                             onPress={() => {
-                                setModalVisible(false);
+                                setModalVisible(false); //Pressing cancel renders modal invisible.
                             }}
                         />
+                        {/* Showing an accept button is optional. */}
                         {acceptable && <AppButton 
                             style={styles.acceptButton}
                             text={acceptBtnText}
                             onPress={() => {
-
+                                //TODO: Add onAccept property for this component.
                             }}
                         />}
                     </View>
