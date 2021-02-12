@@ -1,57 +1,77 @@
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
-import { Text, TextInput, Button } from '../components/custom-item-lib'
-import { Formik } from 'formik'
+import { ImageBackground, StyleSheet, View } from 'react-native'
+import { Button, Form, FormInput, SubmitButton } from '../components/custom-item-lib'
+import * as Yup from 'yup'
+import assets from '../config/assets'
 
-export default function RegisterScreen() {
+export default function RegisterScreen({ navigation }) {
+    const validationSchema = Yup.object().shape({ 
+        email: Yup.string().required().email().label("Email"),
+        password: Yup.string().required().min(4).label("Password"),
+        passwordCheck: Yup.string().required().min(4).label("Password Check"),
+    })
+
     return (
-        <View style={styles.container}>
-            <Formik 
-                initialValues={{ email: "", password:""}}
-                onSubmit={values => console.log(values)}
-            >
-                {({handleChange, handleSubmit}) => (
-                    <>
-                        <Text style={styles.title} text="Register" />
-                        <TextInput 
-                            autoCorrect={false}
-                            keyboardType="email-address"
-                            placeholder="Username or Email"
-                            onChangeText={handleChange("email")}
-                            textContentType="emailAddress"
-                        />
-                        <TextInput
-                            autoCorrect={false}
-                            keyboardType="number-pad"
-                            placeholder="Password"
-                            secureTextEntry
-                            textContentType="password"
-                            onChangeText={handleChange("password")}
-                        />
-                        <TextInput
-                            autoCorrect={false}
-                            keyboardType="number-pad"
-                            placeholder="Password Check"
-                            secureTextEntry
-                            textContentType="password"
-                            onChangeText={handleChange("passwordCheck")}
-                        />
-                        <Button  
-                            text="Register"
-                            onPress={() => {
-
-                            }}
-                        />
-                    </>
-                )}
-                </Formik>
-        </View>
+        <ImageBackground
+            source={assets.backgroundImage}
+            style={styles.background}
+            blurRadius={2}
+        >
+            <View style={styles.container}>
+                <Form
+                    initialValues={{email: "", password:"", passwordCheck:""}}
+                    onSubmit={values => console.log(values)}
+                    validationSchema={validationSchema}
+                >
+                    <FormInput 
+                        name="email"
+                        autoCorrect={false}
+                        keyboardType="email-address"
+                        placeholder="Username or Email"
+                        textContentType="emailAddress"
+                    />
+                    <FormInput
+                        name="password"
+                        autoCorrect={false}
+                        keyboardType="number-pad"
+                        placeholder="Password"
+                        secureTextEntry
+                        textContentType="password"
+                    />
+                    <FormInput
+                        name="passwordCheck"
+                        autoCorrect={false}
+                        keyboardType="number-pad"
+                        placeholder="Password Check"
+                        secureTextEntry
+                        textContentType="password"
+                    />
+                    <SubmitButton  
+                        text="Register"
+                    />
+                    <Button
+                        text="Already have account?"
+                        onPress={() => {
+                            navigation.goBack();
+                        }}
+                    />
+                </Form>
+            </View>
+        </ImageBackground>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: "red",
+        justifyContent: "center",
+        alignItems: "stretch",
         alignSelf: "stretch",
+        padding: 10,
+    },
+    background: {
+        resizeMode: "cover",
+        justifyContent: "flex-start",
+        alignSelf: "stretch",
+        height: "100%",
     }
 })
