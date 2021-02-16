@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { Card } from './custom-item-lib'
 import { RoundPicture } from './default'
 import { Text } from './custom-item-lib'
@@ -8,8 +8,10 @@ export default function Notification({ pictureSource, notifName, notifText }) {
     return (
         <Card style={styles.container} >
             <RoundPicture source={pictureSource} style={styles.picture} />
-            <Text text={notifName} style={styles.nameText} />
-            <Text text={notifText} />
+            <Text>{/** This kind of wrapping is to make two text objects inline while preventing overflow */}
+                <Text text={notifName} style={styles.nameText} /> 
+                <Text text={notifText} />
+            </Text>
         </Card>
     )
 }

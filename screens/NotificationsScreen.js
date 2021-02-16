@@ -1,13 +1,13 @@
 import React from 'react'
 import { View } from 'react-native'
-import { FlatList } from 'react-native-gesture-handler';
-import { Notification, RoundPicture } from '../components/default'
+import { FlatList } from 'react-native-gesture-handler'
+import { Notification } from '../components/default'
 
 //TODO: Remove this list after backend connection.
 const notifs = [
     {
         id: 1,
-        pictureSource: "https://thispersondoesnotexist.com/",
+        pictureSource: "https://picsum.photos/id/1020/200",
         username: "flowerhunter_31",
         text: " liked your guide ",
     },
@@ -19,7 +19,7 @@ const notifs = [
     },
     {
         id: 3,
-        pictureSource: "https://thispersondoesnotexist.com/",
+        pictureSource: "https://picsum.photos/id/1025/200",
         username: "XxX_wheatgrower_XxX",
         text: " commented your guide ",
     }
