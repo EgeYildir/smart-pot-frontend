@@ -2,11 +2,13 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native'
 import AuthNavigator from './navigation/AuthNavigator';
+import TabNavigator from './navigation/TabNavigator';
 
 export default function App() {
   return (
     <NavigationContainer style={styles.container}>
-      <AuthNavigator />
+      {/* <AuthNavigator /> */} 
+      <TabNavigator />
     </NavigationContainer>
   );
 }
