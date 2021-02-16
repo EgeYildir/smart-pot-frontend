@@ -1,14 +1,11 @@
 import React from 'react'
-import { StyleSheet, View, TextInput } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import colors from '../../config/colors'
 
-export default function AppTextInput( {...props} ) {
+export default function Card({ children, style }) {
     return (
-        <View style={styles.container}>
-            <TextInput 
-                style={styles.textInput} 
-                {...props}
-            />
+        <View style={[styles.container, style]}>
+            { children }
         </View>
     )
 }
@@ -17,7 +14,7 @@ const styles = StyleSheet.create({
     container: {
         borderRadius: 10,
         padding: 10,
-        marginVertical: 10,
+        marginVertical: 5,
         marginHorizontal: 5,
         shadowColor: colors.shadow,
         shadowOffset: {
@@ -28,7 +25,4 @@ const styles = StyleSheet.create({
         shadowRadius: 10,
         elevation: 2,
     },
-    textInput: {
-        fontSize: 18,
-    }
 })
