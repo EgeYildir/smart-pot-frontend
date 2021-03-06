@@ -1,7 +1,8 @@
 import { create } from 'apisauce'
 
+//Create a client. BaseURL should be server URL (or http://localhost for development).
 const apiClient = create({
-    baseURL: ''
+    baseURL: 'http://localhost:80'
 });
 
-apiClient.get('');
+export default apiClient;
