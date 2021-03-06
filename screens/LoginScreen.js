@@ -1,16 +1,34 @@
-import React from 'react'
+import React, { useState, useContext } from 'react'
 import { ImageBackground, StyleSheet, View } from 'react-native'
 import { Button, Form, FormInput, SubmitButton } from '../components/custom-item-lib'
 import * as Yup from 'yup'
 import assets from '../config/assets'
+import authApi from '../api/auth'
+import jwtDecode from 'jwt-decode'
+import AuthContext from '../auth/context'
+import authStorage from '../auth/storage'
+
+//TODO: Edit validation schema according to backend needs.
+const validationSchema = Yup.object().shape({ 
+    email: Yup.string().required().email().label("Email"),
+    password: Yup.string().required().min(4).label("Password"),
+})
 
 export default function LoginScreen({ navigation }) {
+    const authContext = useContext(AuthContext);
+    const [loginFailed, setLoginFailed] = useState(false);
 
-    //TODO: Edit validation schema according to backend needs.
-    const validationSchema = Yup.object().shape({ 
-        email: Yup.string().required().email().label("Email"),
-        password: Yup.string().required().min(4).label("Password"),
-    })
+    const handleSubmit = async ({ email, password }) => {
+        const result = await authApi.login(email, password);//Try to login with email and password.
+
+        if (!result.ok) return setLoginFailed(true);
+
+        //If success, decode data and store user.
+        setLoginFailed(false);
+        const user = jwtDecode(result.data);
+        authContext.setUser(user);
+        authStorage.storeToken(result.data);
+    }
 
     return (
         <ImageBackground
@@ -21,8 +39,7 @@ export default function LoginScreen({ navigation }) {
             <View style={styles.container}>
                 <Form
                     initialValues={{email: "", password:""}}
-                    //TODO: Form submit probably shouldn't log these values.
-                    onSubmit={values => console.log(values)}
+                    onSubmit={handleSubmit}
                     validationSchema={validationSchema}
                 >
                     <FormInput 

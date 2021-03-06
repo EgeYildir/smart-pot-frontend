@@ -1,16 +1,20 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler';
 import { Button, Text } from '../components/custom-item-lib'
 import { RoundPicture, Post } from '../components/default';
+import AuthContext from '../auth/context'
+import authStorage from '../auth/storage'
 
-const userData = {
+/*
+const user = {
     id: "1",
     email: "johndoe@gmail.com",
     firstName: "John",
     lastName: "Doe",
     image: "https://picsum.photos/200",
 };
+*/
 
 const posts = [
     {
@@ -38,16 +42,21 @@ const posts = [
 ];
 
 export default function ProfileScreen() {
+    const { user, setUser } = useContext(AuthContext);
+
+    const handleLogout = () => {
+        setUser(null);
+        authStorage.removeToken();//Remove user in case of logout.
+    };
+
     return (
         <View style={styles.container}>
-            <RoundPicture source={userData.image} style={styles.picture} />
-            <Text text={userData.firstName + " " + userData.lastName} />
+            <RoundPicture source={user.image} style={styles.picture} />
+            <Text text={user.firstName + " " + user.lastName} />
             <View style={styles.content}>
                 <Button 
                     text="Log Out"
-                    onPress={() => {
-                        //TODO: Readjust logout button after debugging.
-                    }}
+                    onPress={handleLogout}
                 />
                 <FlatList 
                     data={posts}
