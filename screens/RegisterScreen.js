@@ -1,15 +1,37 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { ImageBackground, StyleSheet, View } from 'react-native'
 import { Button, Form, FormInput, SubmitButton } from '../components/custom-item-lib'
 import * as Yup from 'yup'
 import assets from '../config/assets'
+import authApi from '../api/auth'
+import auth from '../api/auth'
+
+const validationSchema = Yup.object().shape({ 
+    firstname: Yup.string().required().label("Firstname"),
+    lastname: Yup.string().required().label("Lastname"),
+    email: Yup.string().required().email().label("Email"),
+    password: Yup.string().required().min(4).label("Password"),
+})
 
 export default function RegisterScreen({ navigation }) {
-    const validationSchema = Yup.object().shape({ 
-        email: Yup.string().required().email().label("Email"),
-        password: Yup.string().required().min(4).label("Password"),
-        passwordCheck: Yup.string().required().min(4).label("Password Check"),
-    })
+    const [error, setError] = useState();
+
+    const handleSubmit = async (userInfo) => {
+        const result = await authApi.signup(userInfo);
+        console.log(userInfo);
+
+        if (!result) {
+            if (result.data) setError(result.data.error);
+            else {
+                setError("An unexpected error occured: " + result.data.error);
+                console.log(result);
+            }
+            return;
+        }
+
+        const { data: authToken } = await authApi.login(userInfo.email, userInfo.password);
+        auth.login(authToken);
+    }
 
     return (
         <ImageBackground
@@ -19,15 +41,29 @@ export default function RegisterScreen({ navigation }) {
         >
             <View style={styles.container}>
                 <Form
-                    initialValues={{email: "", password:"", passwordCheck:""}}
-                    onSubmit={values => console.log(values)}
+                    initialValues={{firstname: "", lastname: "", email: "", password:""}}
+                    onSubmit={handleSubmit}
                     validationSchema={validationSchema}
                 >
+                    <FormInput 
+                        name="firstname"
+                        autoCorrect={false}
+                        keyboardType="email-address"
+                        placeholder="Firstname"
+                        textContentType="emailAddress"
+                    />
+                    <FormInput 
+                        name="lastname"
+                        autoCorrect={false}
+                        keyboardType="email-address"
+                        placeholder="Lastname"
+                        textContentType="emailAddress"
+                    />
                     <FormInput 
                         name="email"
                         autoCorrect={false}
                         keyboardType="email-address"
-                        placeholder="Username or Email"
+                        placeholder="Email"
                         textContentType="emailAddress"
                     />
                     <FormInput
@@ -35,14 +71,6 @@ export default function RegisterScreen({ navigation }) {
                         autoCorrect={false}
                         keyboardType="number-pad"
                         placeholder="Password"
-                        secureTextEntry
-                        textContentType="password"
-                    />
-                    <FormInput
-                        name="passwordCheck"
-                        autoCorrect={false}
-                        keyboardType="number-pad"
-                        placeholder="Password Check"
                         secureTextEntry
                         textContentType="password"
                     />

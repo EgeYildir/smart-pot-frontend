@@ -1,12 +1,10 @@
-import React, { useState, useContext } from 'react'
+import React, { useState } from 'react'
 import { ImageBackground, StyleSheet, View } from 'react-native'
 import { Button, Form, FormInput, SubmitButton } from '../components/custom-item-lib'
 import * as Yup from 'yup'
 import assets from '../config/assets'
 import authApi from '../api/auth'
-import jwtDecode from 'jwt-decode'
-import AuthContext from '../auth/context'
-import authStorage from '../auth/storage'
+import useAuth from '../auth/useAuth'
 
 //TODO: Edit validation schema according to backend needs.
 const validationSchema = Yup.object().shape({ 
@@ -15,19 +13,18 @@ const validationSchema = Yup.object().shape({
 })
 
 export default function LoginScreen({ navigation }) {
-    const authContext = useContext(AuthContext);
+    const authContext = useAuth();
     const [loginFailed, setLoginFailed] = useState(false);
 
     const handleSubmit = async ({ email, password }) => {
-        const result = await authApi.login(email, password);//Try to login with email and password.
-
+        //Try to login with email and password.
+        const result = await authApi.login(email, password);
         if (!result.ok) return setLoginFailed(true);
+        console.log(result.data);
 
         //If success, decode data and store user.
         setLoginFailed(false);
-        const user = jwtDecode(result.data);
-        authContext.setUser(user);
-        authStorage.storeToken(result.data);
+        authContext.login(result.data.Token);
     }
 
     return (
@@ -58,7 +55,6 @@ export default function LoginScreen({ navigation }) {
                         textContentType="password"
                     />
                     <SubmitButton  
-                        //Submit button does nothing at the moment.
                         text="Login"
                     />
                     {/* Button navigate to the register screen. */}
