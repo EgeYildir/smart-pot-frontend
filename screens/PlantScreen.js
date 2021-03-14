@@ -1,14 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { DataBlock } from '../components/default'
+import plantDataApi from '../api/plantData'
+import useApi from '../hooks/useApi'
 
-const plant = {
-    humidity: "62",
-    temperature: "16",
-    light: "100",
-};
+export default function PlantScreen({ navigation }) {
+    const {data: plant, error, loading, request: loadPlantData} = useApi(plantDataApi.getPlantData);
 
-export default function PlantScreen() {
+    useEffect(() => {
+        loadPlantData();
+    }, []);
+
     return (
         <View style={styles.container}>
             <View style={styles.dataContainer}>

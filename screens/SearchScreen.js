@@ -33,14 +33,14 @@ export default function SearchScreen() {
         <View>
             <SearchBar 
                 onChangeText={() => {
-                    
+                    //TODO: Fill this method.
                 }}
             />
-            <FlatList 
+            <FlatList //FlatList returns search results inside.
                 data={results}
                 keyExtractor={result => result.id.toString()}
                 renderItem={({ item }) => (
-                    <Post 
+                    <Post //TODO: Change this to search result component.
                         picture={item.images[0]}
                         name={item.plant}
                     />

@@ -1,64 +1,31 @@
-import React, { useContext } from 'react'
+import React, { useEffect } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler';
 import { Button, Text } from '../components/custom-item-lib'
 import { RoundPicture, Post } from '../components/default';
-import AuthContext from '../auth/context'
-import authStorage from '../auth/storage'
-
-/*
-const user = {
-    id: "1",
-    email: "johndoe@gmail.com",
-    firstName: "John",
-    lastName: "Doe",
-    image: "https://picsum.photos/200",
-};
-*/
-
-const posts = [
-    {
-        id: "1",
-        userId: "1",
-        plant: "Strawberry",
-        envData:
-        {
-            humidity: "62",
-            temperature: "16",
-            light: "100",
-        },
-        images: [
-            {
-                id: "1",
-                uri: "https://picsum.photos/id/1080/200",
-            },
-            {
-                id: "2",
-                uri: "https://picsum.photos/id/189/200",
-            }
-        ],
-        date: "06.06.06",
-    },
-];
+import useAuth from '../auth/useAuth';
+import useApi from '../hooks/useApi'
+import userDataApi from '../api/userData'
 
 export default function ProfileScreen() {
-    const { user, setUser } = useContext(AuthContext);
+    const authContext = useAuth();
+    const {data: user, error, loading, request: loadUserData} = useApi(userDataApi.getUserData);
+    console.log(user);
 
-    const handleLogout = () => {
-        setUser(null);
-        authStorage.removeToken();//Remove user in case of logout.
-    };
+    useEffect(() => {
+        loadUserData();
+    },[]);
 
     return (
         <View style={styles.container}>
             <RoundPicture source={user.image} style={styles.picture} />
-            <Text text={user.firstName + " " + user.lastName} />
+            <Text text={user.firstname + " " + user.lastname} />
             <View style={styles.content}>
                 <Button 
                     text="Log Out"
-                    onPress={handleLogout}
+                    onPress={() => authContext.logout()}
                 />
-                <FlatList 
+                {/*<FlatList 
                     data={posts}
                     keyExtractor={post => post.id.toString()}
                     renderItem={({ item }) => (
@@ -67,7 +34,7 @@ export default function ProfileScreen() {
                             name={item.plant}
                         />
                     )}
-                />
+                    />*/}
             </View>
         </View>
     )
