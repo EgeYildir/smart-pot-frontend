@@ -13,10 +13,10 @@ export default function useApi(apiFunc){
         setLoading(false);
 
         //If response is not ok, show error.
-        if(!response.ok) return setError(true);
-
-        setError(false);
+        setError(!response.ok);
         setData(response.data);
+        
+        return response;
     };
 
     return { data, error, loading, request };
