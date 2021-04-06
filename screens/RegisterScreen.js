@@ -4,7 +4,8 @@ import { Button, Form, FormInput, SubmitButton } from '../components/custom-item
 import * as Yup from 'yup'
 import assets from '../config/assets'
 import authApi from '../api/auth'
-import auth from '../api/auth'
+import useAuth from '../auth/useAuth'
+import useApi from '../hooks/useApi'
 
 const validationSchema = Yup.object().shape({ 
     firstname: Yup.string().required().label("Firstname"),
@@ -14,11 +15,13 @@ const validationSchema = Yup.object().shape({
 })
 
 export default function RegisterScreen({ navigation }) {
+    const signupApi = useApi(authApi.signup);
+    const loginApi = useApi(authApi.login);
+    const authContext = useAuth();
     const [error, setError] = useState();
 
     const handleSubmit = async (userInfo) => {
-        const result = await authApi.signup(userInfo);
-        console.log(userInfo);
+        const result = await signupApi.request(userInfo);
 
         if (!result) {
             if (result.data) setError(result.data.error);
@@ -29,8 +32,8 @@ export default function RegisterScreen({ navigation }) {
             return;
         }
 
-        const { data: authToken } = await authApi.login(userInfo.email, userInfo.password);
-        auth.login(authToken);
+        const result = await loginApi.request(userInfo.email, userInfo.password);
+        authContext.login(result.data.Token);
     }
 
     return (
