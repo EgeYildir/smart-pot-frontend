@@ -3,12 +3,18 @@ import { StyleSheet } from 'react-native'
 import { Card, Text } from './custom-item-lib'
 import { RoundPicture } from './default'
 
-export default function Post({ picture, name, points }) {
+export default function Post({ picture, name, points, postID, navigation }) {
     return (
-        <Card style={styles.container}>
-            <RoundPicture style={styles.picture} source={picture} />
-            <Text text={name} />
-        </Card>
+        <TouchableHighlight
+            onPress={() => {
+                navigation.navigate("PostScreen", { id: postID })
+            }}
+        >
+            <Card style={styles.container}>
+                <RoundPicture style={styles.picture} source={picture} />
+                <Text text={name} />
+            </Card>
+        </TouchableHighlight>
     )
 }
 
