@@ -38,7 +38,7 @@ export default function PlantScreen({ navigation }) {
 
 const styles = StyleSheet.create({
     container: {
-        justifyContent: "start",
+        justifyContent: "flex-start",
         alignItems: "center",
     },
     dataContainer: {

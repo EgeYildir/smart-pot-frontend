@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { ActivityIndicator, StyleSheet, View } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler';
 import { Button, Text } from '../components/custom-item-lib'
 import { RoundPicture, Post } from '../components/default';
@@ -18,6 +18,12 @@ export default function ProfileScreen() {
 
     return (
         <View style={styles.container}>
+            {error && <>
+                <Text text="Oops, something went wrong..." />
+                <Button text="Retry" onPress={loadUserData} />
+            </>
+            }
+            <ActivityIndicator animating={loading} size="large" />
             <RoundPicture source={user.image} style={styles.picture} />
             <Text text={user.firstname + " " + user.lastname} />
             <View style={styles.content}>

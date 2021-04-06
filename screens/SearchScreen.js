@@ -1,7 +1,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
-import { Post, SearchBar } from '../components/default'
+import { SearchBar, SearchResult } from '../components/default'
 
 const results = [
     {
@@ -40,7 +40,7 @@ export default function SearchScreen() {
                 data={results}
                 keyExtractor={result => result.id.toString()}
                 renderItem={({ item }) => (
-                    <Post //TODO: Change this to search result component.
+                    <SearchResult //TODO: Change this to search result component.
                         picture={item.images[0]}
                         name={item.plant}
                     />
