@@ -2,21 +2,31 @@ import React from 'react'
 import { View } from 'react-native'
 import { Form, FormInput } from '../components/custom-item-lib'
 import * as Yup from 'yup'
+import postsApi from '../api/posts'
+
+const validationSchema = Yup.object().shape({
+    plant: Yup.string().required().label("Plant"),
+    temperature: Yup.string().required().label("Temperature"),
+    humidity: Yup.string().required().label("Humidity"),
+    light: Yup.string().required().label("Light"),
+})
 
 export default function AddPostScreen() {
 
-    const validationSchema = Yup.object().shape({
-        plant: Yup.string().required().label("Plant"),
-        temperature: Yup.string().required().label("Temperature"),
-        humidity: Yup.string().required().label("Humidity"),
-        light: Yup.string().required().label("Light"),
-    })
+    const handleSubmit = async (post, { resetForm }) => {
+        const result = await postsApi.addPost(post);
+        if (!result.ok)
+            return alert('Could not save the post.');
+        alert('Success');
+
+        resetForm();
+    }
 
     return (
         <View>
             <Form
                 initalValues={{plant: "", temperature: "", humidity: "", light: ""}}
-                onSubmit={values => console.log(values)}
+                onSubmit={handleSubmit}
                 validationSchema={validationSchema}
             >
                 <FormInput

@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { DataBlock } from '../components/default'
+import { Button, Text } from '../components/custom-item-lib'
 import plantDataApi from '../api/plantData'
 import useApi from '../hooks/useApi'
 
@@ -13,9 +14,13 @@ export default function PlantScreen({ navigation }) {
 
     return (
         <View style={styles.container}>
+            {error && <>
+                <Text text="Oops, something went wrong..." />
+                <Button text="Retry" onPress={loadPlantData} />
+            </>}
             <View style={styles.dataContainer}>
                 <DataBlock 
-                text="Temperature"
+                    text="Temperature"
                     value={plant.temperature}
                     style={styles.temperature}
                 />
@@ -30,7 +35,7 @@ export default function PlantScreen({ navigation }) {
                     text="Light"
                     value={plant.light}
                     style={styles.light}
-                    />
+            />
             </View>
         </View>
     )

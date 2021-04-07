@@ -32,8 +32,8 @@ export default function RegisterScreen({ navigation }) {
             return;
         }
 
-        const result = await loginApi.request(userInfo.email, userInfo.password);
-        authContext.login(result.data.Token);
+        const loginResult = await loginApi.request(userInfo.email, userInfo.password);
+        authContext.login(loginResult.data.Token);
     }
 
     return (
