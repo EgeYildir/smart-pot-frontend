@@ -1,6 +1,6 @@
 import client from './client'
 
-const endpoint = './plantData';
+const endpoint = '/plantData';
 
 const getPlantData = () => client.get(endpoint);
 

@@ -1,8 +1,8 @@
 import client from './client'
 
-const endpoint = './user/public';
+const endpoint = '/user/single/';
 
-const getUserData = () => client.get(endpoint);
+const getUserData = ( id ) => client.get(endpoint + id);
 
 export default {
     getUserData,
