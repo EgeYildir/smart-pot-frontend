@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 //Custom hook for data operations.
 export default function useApi(apiFunc){
-    const [data, setData] = useState([]);
+    const [data, setData] = useState(null);
     const [error, setError] = useState(false);
     const [loading, setLoading] = useState(false);
 
@@ -12,7 +12,6 @@ export default function useApi(apiFunc){
         const response = await apiFunc(...args);
         setLoading(false);
 
-        //If response is not ok, show error.
         setError(!response.ok);
         setData(response.data);
         
