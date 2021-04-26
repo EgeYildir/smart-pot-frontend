@@ -21,6 +21,6 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     text: {
-        color: colors.light,
+        color: colors.lightText,
     },
 })

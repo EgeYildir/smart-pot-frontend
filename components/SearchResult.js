@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import { Card, Text } from './custom-item-lib'
-import { RoundPicture } from './default'
+import  RoundPicture  from './RoundPicture'
 
 export default function SearchResult({ title, pictureUri }) {
     return (

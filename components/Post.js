@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleSheet, TouchableHighlight } from 'react-native'
 import { Card, Text } from './custom-item-lib'
-import { RoundPicture } from './default'
+import  RoundPicture  from './RoundPicture'
 
 export default function Post({ picture, name, points, postID, navigation }) {
     return (
