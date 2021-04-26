@@ -16,9 +16,9 @@ export default function App() {
     if (user) setUser(user);
   }
 
-  /*if (!isReady){
-    return (<AppLoading startAsync={restoreUser} onFinish={() => setIsReady(true)} onError={console.log('Error loading the app.')} />);
-  };*/
+  if (!isReady){
+    return (<AppLoading startAsync={restoreUser} onFinish={() => setIsReady(true)} onError={console.log("Error loading the app: ")} />);
+  };
 
   return (
     <AuthContext.Provider value={{ user, setUser }} >
