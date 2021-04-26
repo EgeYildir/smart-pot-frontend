@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
-import { StyleSheet, View } from 'react-native'
-import { DataBlock } from '../components/default'
-import { Button, Text } from '../components/custom-item-lib'
+import { ActivityIndicator, StyleSheet, View } from 'react-native'
+import { DataBlock, Error } from '../components/default'
 import plantDataApi from '../api/plantData'
 import useApi from '../hooks/useApi'
 
@@ -14,10 +13,10 @@ export default function PlantScreen({ navigation }) {
 
     return (
         <View style={styles.container}>
-            {error && <>
-                <Text text="Oops, something went wrong..." />
-                <Button text="Retry" onPress={loadPlantData} />
-            </>}
+            {error !== null && <Error onPress={loadPlantData} /> }
+            {/*plant !== null &&
+            <>
+            <ActivityIndicator animating={loading} size="large" />
             <View style={styles.dataContainer}>
                 <DataBlock 
                     text="Temperature"
@@ -32,11 +31,10 @@ export default function PlantScreen({ navigation }) {
             </View>
             <View style={styles.dataContainer} >
                 <DataBlock 
-                    text="Light"
                     value={plant.light}
                     style={styles.light}
-            />
-            </View>
+                />
+            </View> </>*/}
         </View>
     )
 }
@@ -45,6 +43,8 @@ const styles = StyleSheet.create({
     container: {
         justifyContent: "flex-start",
         alignItems: "center",
+        padding: 10,
+        height: "100%",
     },
     dataContainer: {
         flexDirection: "row",

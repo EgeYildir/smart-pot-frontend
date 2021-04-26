@@ -1,60 +1,56 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ActivityIndicator, StyleSheet, View } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler';
 import { Button, Text } from '../components/custom-item-lib'
-import { RoundPicture, Post } from '../components/default';
-import useAuth from '../auth/useAuth';
+import { Error, RoundPicture, Post } from '../components/default';
 import useApi from '../hooks/useApi'
 import userDataApi from '../api/userData'
-
-const item = {
-    id: 1,
-    plant: "Rose",
-    images: ["https://picsum.photos/200/300"]
-}
+import postsApi from '../api/posts'
+import useAuth from '../auth/useAuth'
 
 export default function ProfileScreen({ navigation }) {
+    const [loading, setLoading] = useState(false);
     const authContext = useAuth();
-    const {data: user, error, loading, request: loadUserData} = useApi(userDataApi.getUserData);
+    const userID = authContext.user.userId;
 
+    const getUserApi = useApi(userDataApi.getUserData);
+    const getPostsApi = useApi(postsApi.getUserPosts);
+    
     useEffect(() => {
-        loadUserData();
+        getUserApi.request(userID);
+        getPostsApi.request(userID);
     },[]);
 
     return (
         <View style={styles.container}>
-            {error && <>
-                <Text text="Oops, something went wrong..." />
-                <Button text="Retry" onPress={loadUserData} />
-            </>
-            }
-            <ActivityIndicator animating={loading} size="large" />
-            <RoundPicture source={user.image} style={styles.picture} />
-            <Text text={user.firstname + " " + user.lastname} />
-            <Post 
-                picture={item.images[0]}
-                name={item.plant}
-                navigation={navigation}
-                postID={item.id}
+            <Button text="Logout" 
+                onPress={() => authContext.logout()}
             />
-            <View style={styles.content}>
-                <Button 
-                    text="Log Out"
-                    onPress={() => authContext.logout()}
-                />
-                <FlatList 
-                    data={posts}
-                    keyExtractor={post => post.id.toString()}
-                    renderItem={({ item }) => (
-                        <Post 
-                            picture={item.images[0]}
-                            name={item.plant}
-                            navigation={navigation}
-                            postID={post.id}
-                        />
-                    )}
-                />
-            </View>
+            {getUserApi.data != null ?
+            <View >
+            <ActivityIndicator animating={loading} size="large" />
+            
+            <Text text={getUserApi.data.User.firstName + " " + getUserApi.data.User.lastName} />
+            <Button text="Logout" 
+                onPress={() => authContext.logout()}
+            />
+            <Button text="Add post" 
+                onPress={() => navigation.navigate("AddPostScreen")}
+            />
+            </View> : null}
+            {getPostsApi.data != null ? 
+                <View>
+                    <FlatList 
+                        data={getPostsApi.data.Posts}
+                        keyExtractor={post => post.id}
+                        renderItem={({ item }) => (
+                            <Post
+                                picture={item.images[0]}
+                                name={item.plant}
+                            />
+                        )}
+                    />
+                </View> : null}
         </View>
     )
 }
@@ -63,6 +59,8 @@ const styles = StyleSheet.create({
     container: {
         justifyContent: "center",
         alignItems: "center",
+        height: "100%",
+        padding: 10,
     },
     picture: {
         height: 150,
