@@ -6,20 +6,19 @@ import NotificationsScreen from '../screens/NotificationsScreen'
 import SearchScreen from '../screens/SearchScreen'
 
 import PlantNavigator from './PlantNavigator'
-import ProfileNavigator from './ProfileNavigator'
+import DrawerNavigator from './DrawerNavigator'
+import colors from '../config/colors'
 
 const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => (
-    <Tab.Navigator >
-        <Tab.Screen 
-            name="Profile" 
-            component={ProfileNavigator} 
-            options={{
-                tabBarLabel: () => {return null},
-                tabBarIcon: ({ size, color }) => <MaterialCommunityIcons name="account" size={size} color={color} />
-            }}
-        />
+    <Tab.Navigator 
+        initialRouteName="Profile"
+        tabBarOptions={{
+            activeTintColor: colors.dark,
+            inactiveTintColor: colors.background,
+        }}
+    >
         <Tab.Screen 
             name="Plant" 
             component={PlantNavigator} 
@@ -44,7 +43,14 @@ const TabNavigator = () => (
                 tabBarIcon: ({ size, color }) => <MaterialCommunityIcons name="bell" size={size} color={color} />
             }}
         />
-        
+        <Tab.Screen 
+            name="Profile" 
+            component={DrawerNavigator} 
+            options={{
+                tabBarLabel: () => {return null},
+                tabBarIcon: ({ size, color }) => <MaterialCommunityIcons name="account" size={size} color={color} />
+            }}
+        />
     </Tab.Navigator>
 )
 

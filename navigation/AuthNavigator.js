@@ -1,13 +1,12 @@
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import { createStackNavigator } from '@react-navigation/stack'
-import { MaterialCommunityIcons } from '@expo/vector-icons'
-import { Text } from '../components/custom-item-lib'
+import { Header } from '../components/default'
 
 import LoginScreen from '../screens/LoginScreen'
 import RegisterScreen from '../screens/RegisterScreen'
+import ForgotPasswordScreen from '../screens/ForgotPasswordScreen'
 
-import colors from '../config/colors'
 
 const Stack = createStackNavigator();
 
@@ -18,10 +17,7 @@ const AuthNavigator = () => (
             component={LoginScreen}
             options={{
                 headerTitle: props => 
-                <Text>
-                    <MaterialCommunityIcons name="leaf" size={25} color={colors.primary} />
-                    <Text text=" Smart Pot   " style={styles.title} />
-                </Text> ,
+                <Header /> ,
                 headerTitleAlign: "center",
             }} 
         />
@@ -30,21 +26,23 @@ const AuthNavigator = () => (
             component={RegisterScreen} 
             options={{
                 headerTitle: props => 
-                <Text>
-                    <MaterialCommunityIcons name="leaf" size={25} color={colors.primary} />
-                    <Text text=" Smart Pot   " style={styles.title} />
-                </Text> ,
+                <Header /> ,
+                headerTitleAlign: "center",
+            }} 
+        />
+        <Stack.Screen 
+            name="ForgotPassword" 
+            component={ForgotPasswordScreen} 
+            options={{
+                headerTitle: props => 
+                <Header /> ,
                 headerTitleAlign: "center",
             }} 
         />
     </Stack.Navigator>
 )
 
-const styles = StyleSheet.create({
-    title: {
-        color: colors.primary,
-    }
-})
+const styles = StyleSheet.create({})
 
 
 export default AuthNavigator;

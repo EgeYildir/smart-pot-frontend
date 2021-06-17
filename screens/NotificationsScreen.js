@@ -1,5 +1,5 @@
 import React from 'react'
-import { View } from 'react-native'
+import { View, StyleSheet } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
 import { Notification } from '../components/default'
 
@@ -27,18 +27,31 @@ const notifs = [
 
 export default function NotificationsScreen() {
     return (
-        <View>
-            <FlatList 
-                data={notifs}
-                keyExtractor={notif => notif.id.toString()}
-                renderItem={({ item }) => (
-                    <Notification
-                        pictureSource={item.pictureSource}
-                        notifName={item.username}
-                        notifText={item.text}
-                    />
-                )}
-            />
-        </View>
+        <Screen>
+            <View style={styles.container} >
+                <FlatList 
+                    data={notifs}
+                    keyExtractor={notif => notif.id.toString()}
+                    renderItem={({ item }) => (
+                        <Notification
+                            pictureSource={item.pictureSource}
+                            notifName={item.username}
+                            notifText={item.text}
+                        />
+                    )}
+                    refreshing={() => console.log()}
+                    onRefresh={() => console.log()}
+                />
+            </View>
+        </Screen>
     )
 }
+
+const styles = StyleSheet.create({
+    container: {
+        justifyContent: "flex-start",
+        alignItems: "stretch",
+        height: "100%",
+        padding: 5,
+    },
+})

@@ -1,9 +1,10 @@
-import React from 'react'
-import { View } from 'react-native'
+import React, { useState } from 'react'
+import { View, ScrollView, Alert } from 'react-native'
 import { Form, FormInput, SubmitButton, Screen } from '../components/custom-item-lib'
 import * as Yup from 'yup'
 import postsApi from '../api/posts'
 import useAuth from '../auth/useAuth'
+import { FormImagePicker } from '../components/default'
 
 const validationSchema = Yup.object().shape({
     plant: Yup.string().required().label("Plant"),
@@ -11,6 +12,7 @@ const validationSchema = Yup.object().shape({
     humidity: Yup.string().required().label("Humidity"),
     light: Yup.string().required().label("Light"),
     info: Yup.string().required().label("Information"),
+    images: Yup.array(), //.min(1, "Please select at least one image.")
 })
 
 export default function AddPostScreen() {
@@ -20,17 +22,19 @@ export default function AddPostScreen() {
     const handleSubmit = async (post, { resetForm }) => {
         const result = await postsApi.addPost(post, userID);
         console.log("Result is: " + result);
-        /*if (!result.ok)
-            console.log("Could not post");
-        console.log('Success');*/
+        if (result?.ok ?? false)
+            Alert.alert("Could not post");
+        else Alert.alert("Success!");
+        console.log('Success');
 
         resetForm();
     }
 
     return (
         <Screen>
+            <ScrollView>
             <Form
-                initialValues={{plant: "", temperature: "", humidity: "", light: "", info: "",}}
+                initialValues={{plant: "", temperature: "", humidity: "", light: "", info: "", images: [],}}
                 onSubmit={handleSubmit}
                 validationSchema={validationSchema}
             >
@@ -59,10 +63,14 @@ export default function AddPostScreen() {
                     name="info"
                     placeholder="Information"
                 />
+                <FormImagePicker 
+                    name="images"
+                />
                 <SubmitButton 
                     text="Submit"
                 />
             </Form>
+            </ScrollView>
         </Screen>
     )
 }

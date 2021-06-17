@@ -4,7 +4,7 @@ import colors from '../../config/colors'
 
 export default function AppTextInput( {...props} ) {
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, props.style]}>
             <TextInput 
                 style={styles.textInput} 
                 {...props}

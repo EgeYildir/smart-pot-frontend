@@ -1,9 +1,10 @@
 import React from 'react'
-import { StyleSheet, Image, View } from 'react-native'
+import { StyleSheet, Text, View, Image, Dimensions } from 'react-native'
 
-//RoundPicture uses built-in Image component fom React. Image requires dimension specification for 
-//network images. There has to be a width and height specified for RoundPicture.
-export default function RoundPicture({ source, style }) {
+const width = Dimensions.get('window').width;
+const height = Dimensions.get('window').height ;
+
+export default function AppImage({ source, style }) {
     return (
         <View style={[styles.container, style]}>
             <Image 
@@ -19,11 +20,10 @@ export default function RoundPicture({ source, style }) {
 const styles = StyleSheet.create({
     container: {
         justifyContent: "center",
-        alignItems: "center",
+        alignItems: "stretch",
     },
     image: {
-        height: 50,
-        width: 50,
-        borderRadius: 25,
+        height: width,
+        width: width,
     },
 })

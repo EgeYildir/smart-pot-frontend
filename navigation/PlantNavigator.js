@@ -7,7 +7,11 @@ import PlantDetailsScreen from '../screens/PlantDetailsScreen'
 const Stack = createStackNavigator();
 
 const PlantNavigator = () => (
-    <Stack.Navigator>
+    <Stack.Navigator
+        screenOptions={{
+            headerShown: false,
+        }}
+    >
         <Stack.Screen name="Plant" component={PlantScreen} />
         <Stack.Screen name="Plant Details" component={PlantDetailsScreen} />
     </Stack.Navigator>

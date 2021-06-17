@@ -4,7 +4,7 @@ import { Text, Card } from './custom-item-lib'
 
 export default function DataBlock({ value, text, style }) {
     return (
-        <Card>
+        <Card style={styles.container}>
             <Text text={text} />
             <Text text={value} style={[styles.value,style]} />
         </Card>

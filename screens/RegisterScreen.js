@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import { StyleSheet } from 'react-native'
-import { Button, Form, FormInput, SubmitButton, Screen, LinearGradient } from '../components/custom-item-lib'
+import { StyleSheet, View, ScrollView, Alert } from 'react-native'
+import { Button, Form, FormInput, SubmitButton, LinearGradient } from '../components/custom-item-lib'
+import { ActivityIndicator } from '../components/default'
 import * as Yup from 'yup'
 import authApi from '../api/auth'
 import useApi from '../hooks/useApi'
@@ -19,67 +20,75 @@ export default function RegisterScreen({ navigation }) {
 
     const handleSubmit = async (userInfo) => {
         const result = await signupApi.request(userInfo);
+        console.log("Result: ", result);
 
-        if (!result) {
-            if (result.data) setError(result.data.error);
-            else {
-                setError("An unexpected error occured: " + result.data.error);
-                console.log(result);
-            }
-            return;
+        if (result?.data?.error ?? true) {
+            setError(result.data.error);
+            Alert.alert(result.data.error);
+        } else {
+            setError("An unexpected error occured ");
+            Alert.alert("An unexpected error occured ");
+        }
+
+        if (result?.ok ?? true){
+            Alert.alert("Successfully created account");
         }
     }
 
     return (
-        <Screen style={styles.container} >
-            <LinearGradient />
-            <Form
-                initialValues={{firstname: "", lastname: "", email: "", password:""}}
-                onSubmit={handleSubmit}
-                validationSchema={validationSchema}
-            >
-                <FormInput 
-                    name="firstname"
-                    autoCorrect={false}
-                    keyboardType="email-address"
-                    placeholder="Firstname"
-                    textContentType="emailAddress"
-                />
-                <FormInput 
-                    name="lastname"
-                    autoCorrect={false}
-                    keyboardType="email-address"
-                    placeholder="Lastname"
-                    textContentType="emailAddress"
-                />
-                <FormInput 
-                    name="email"
-                    autoCorrect={false}
-                    keyboardType="email-address"
-                    placeholder="Email"
-                    textContentType="emailAddress"
-                />
-                <FormInput
-                    name="password"
-                    autoCorrect={false}
-                    keyboardType="number-pad"
-                    placeholder="Password"
-                    secureTextEntry
-                    textContentType="password"
-                />
-                <SubmitButton  
-                    text="Register"
-                />
-            </Form>
-            <Button
-                style={styles.lightBtn}
-                textStyle={styles.heavyText}
-                text="Already have account?"
-                onPress={() => {
-                    navigation.goBack();
-                }}
-            />
-        </Screen>
+        <>
+            <ActivityIndicator visible={signupApi.loading} />
+            <View style={styles.container} >
+                <ScrollView>
+                    <Form
+                        initialValues={{firstname: "", lastname: "", email: "", password:""}}
+                        onSubmit={handleSubmit}
+                        validationSchema={validationSchema}
+                    >
+                        <FormInput 
+                            name="firstname"
+                            autoCorrect={false}
+                            keyboardType="email-address"
+                            placeholder="Firstname"
+                            textContentType="emailAddress"
+                        />
+                        <FormInput 
+                            name="lastname"
+                            autoCorrect={false}
+                            keyboardType="email-address"
+                            placeholder="Lastname"
+                            textContentType="emailAddress"
+                        />
+                        <FormInput 
+                            name="email"
+                            autoCorrect={false}
+                            keyboardType="email-address"
+                            placeholder="Email"
+                            textContentType="emailAddress"
+                        />
+                        <FormInput
+                            name="password"
+                            autoCorrect={false}
+                            keyboardType="default"
+                            placeholder="Password"
+                            secureTextEntry
+                            textContentType="password"
+                        />
+                        <SubmitButton  
+                            text="Register"
+                        />
+                    </Form>
+                    <Button
+                        style={styles.lightBtn}
+                        textStyle={styles.heavyText}
+                        text="Already have account?"
+                        onPress={() => {
+                            navigation.goBack();
+                        }}
+                    />
+                </ScrollView>
+            </View>
+        </>
     )
 }
 

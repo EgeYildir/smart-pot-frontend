@@ -3,11 +3,11 @@ import { StyleSheet } from 'react-native'
 import { Card, Text } from './custom-item-lib'
 import  RoundPicture  from './RoundPicture'
 
-export default function SearchResult({ title, pictureUri }) {
+export default function SearchResult({ title, picture }) {
     return (
         <Card style={styles.container}>
-            <RoundPicture style={styles.picture} source={pictureUri} />
-            <Text text={title} />
+            <RoundPicture style={styles.picture} source={picture} />
+            <Text text={title} style={styles.text} />
         </Card>
     )
 }
@@ -19,5 +19,8 @@ const styles = StyleSheet.create({
     picture: {
         height: 50,
         width: 50,
+    },
+    text: {
+        marginLeft: 5,
     },
 })

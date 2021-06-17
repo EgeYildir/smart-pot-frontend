@@ -1,51 +1,43 @@
-import React from 'react'
-import { View } from 'react-native'
+import React, { useState } from 'react'
+import { View, StyleSheet } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
+import { Screen } from '../components/custom-item-lib'
 import { SearchBar, SearchResult } from '../components/default'
-
-const results = [
-    {
-        id: "1",
-        userId: "1",
-        plant: "Strawberry",
-        envData:
-        {
-            humidity: "62",
-            temperature: "16",
-            light: "100",
-        },
-        images: [
-            {
-                id: "1",
-                uri: "https://picsum.photos/id/1080/200",
-            },
-            {
-                id: "2",
-                uri: "https://picsum.photos/id/189/200",
-            }
-        ],
-        date: "06.06.06",
-    },
-]
+import useApi from '../hooks/useApi'
+import searchResultsApi from '../api/searchResults'
 
 export default function SearchScreen() {
+    const getSearchApi = useApi(searchResultsApi.getSearchResults);
+    const [query, setQuery] = useState("");
+    const [pagenumber, setPagenumber] = useState(1);
+
     return (
-        <View>
+        <Screen>
             <SearchBar 
-                onChangeText={() => {
-                    //TODO: Fill this method.
+                onChangeText={(text) => {
+                    if(text.length > 2){
+                        setQuery(text);
+                        getSearchApi.request(query, pagenumber);
+                    }
                 }}
             />
-            <FlatList //FlatList returns search results inside.
-                data={results}
-                keyExtractor={result => result.id.toString()}
+            <FlatList
+                data={getSearchApi.data}
+                keyExtractor={result => result.id}
                 renderItem={({ item }) => (
-                    <SearchResult //TODO: Change this to search result component.
-                        picture={item.images[0]}
-                        name={item.plant}
+                    <SearchResult 
+                        title={item.plant}
                     />
                 )}
             />
-        </View>
+        </Screen>
     )
 }
+
+const styles = StyleSheet.create({
+    container: {
+        justifyContent: "flex-start",
+        alignItems: "stretch",
+        height: "100%",
+    }
+})
